@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.SugangMapper">
+	<select id="read" resultType="com.hyeyum.domain.SugangVO">
+		SELECT G.STUDNO AS STUDNO, S.NAME AS STUDNAME, G.COURSNO AS COURSNO, C.NAME AS COURSNAME, G.REGDATE AS REGDATE, G.STATUS AS STATUS, RESULT
+		FROM TBL_SUGANG G
+		LEFT JOIN TBL_STUDENT S
+		ON G.STUDNO = S.STUDNO
+		JOIN TBL_COURSE C
+		ON G.COURSNO = C.COURSNO
+		WHERE G.STUDNO = #{studno}
+		AND G.COURSNO = #{coursno}
+	</select>
+	
+	<!-- <select id="read2" resultType="com.hyeyum.domain.SugangVO">
+		SELECT G.STUDNO, S.NAME AS STUDNAME, G.COURSNO, C.NAME AS COURSNAME, G.REGDATE, G.STATUS, RESULT
+		FROM TBL_SUGANG G
+		LEFT JOIN TBL_STUDENT S
+		ON G.STUDNO = S.STUDNO
+		JOIN TBL_COURSE C
+		ON G.COURSNO = C.COURSNO
+		WHERE G.STUDNO = #{studno}
+		AND G.COURSNO = #{coursno}
+		<trim prefix="where" prefixOverrides="and">
+			<if test="coursno != null">
+				G.COURSNO = #{coursno}
+			</if>
+			<if test="studno != null">
+				AND G.STUDNO = #{studno}
+			</if>
+		</trim>
+	</select> -->
+	
+	<select id="getList" resultType="com.hyeyum.domain.SugangVO">
+		SELECT G.STUDNO AS STUDNO, S.NAME AS STUDNAME, G.COURSNO AS COURSNO, C.NAME AS COURSNAME, G.REGDATE AS REGDATE, G.STATUS AS STATUS, RESULT
+		FROM TBL_SUGANG G
+		LEFT JOIN TBL_STUDENT S
+		ON G.STUDNO = S.STUDNO
+		JOIN TBL_COURSE C
+		ON G.COURSNO = C.COURSNO
+		WHERE G.STUDNO = #{studno}	
+	</select>
+	
+	<select id="getListByCoursno" resultType="com.hyeyum.domain.SugangVO">
+		SELECT G.STUDNO AS STUDNO, S.NAME AS STUDNAME, G.COURSNO AS COURSNO, C.NAME AS NAME, G.REGDATE AS REGDATE, G.STATUS AS STATUS, RESULT
+		FROM TBL_SUGANG G
+		LEFT JOIN TBL_STUDENT S
+		ON G.STUDNO = S.STUDNO
+		JOIN TBL_COURSE C
+		ON G.COURSNO = C.COURSNO
+		where G.COURSNO = #{coursno}
+	</select>
+	
+	<select id="getConfirmedList" resultType="com.hyeyum.domain.SugangVO">
+		SELECT SU.COURSNO AS COURSNO, CO.NAME AS NAME, CREDIT, CU.CATEGORY AS CATEGORY, CO.PROFNO AS PROFNO, RESULT
+		, D.NAME DNAME, P.NAME PNAME, CO.SEMESTER, CO.LOCNO, CO.MAXNUM, CO.DAY, CO.STARTTIME, CO.ENDTIME
+		FROM TBL_SUGANG SU
+		JOIN TBL_COURSE CO
+		ON SU.COURSNO = CO.COURSNO
+		JOIN TBL_STUDENT ST
+		ON SU.STUDNO = ST.STUDNO
+		LEFT JOIN TBL_CURRICULUM CU
+		ON SU.COURSNO = CU.COURSNO AND ST.DEPTNO = CU.DEPTNO
+		JOIN TBL_PROFESSOR P
+		ON CO.PROFNO = P.PROFNO
+		JOIN TBL_DEPARTMENT D
+		ON CO.DEPTNO = D.DEPTNO
+		WHERE SU.STATUS = 1
+		AND SU.RESULT IS NULL
+		AND SU.STUDNO = #{studno}
+	</select>
+	
+	<select id="getListWithCurriculum" resultType="com.hyeyum.domain.SugangVO">
+		SELECT SU.COURSNO, CO.NAME, CREDIT, CU.CATEGORY, CO.PROFNO,RESULT
+		,D.NAME DNAME, P.NAME PNAME, CO.SEMESTER
+		FROM TBL_SUGANG SU
+		JOIN TBL_COURSE CO
+		ON SU.COURSNO = CO.COURSNO
+		JOIN TBL_STUDENT ST
+		ON SU.STUDNO = ST.STUDNO
+		LEFT JOIN TBL_CURRICULUM CU
+		ON SU.COURSNO = CU.COURSNO AND ST.DEPTNO = CU.DEPTNO
+		JOIN TBL_PROFESSOR P
+		ON CO.PROFNO = P.PROFNO
+		JOIN TBL_DEPARTMENT D
+		ON CO.DEPTNO = D.DEPTNO
+		WHERE RESULT IS NOT NULL
+		AND SU.STUDNO = #{studno}
+	</select>
+	
+	<select id="getSugangNum" resultType="int">
+		SELECT COUNT(*)
+		FROM TBL_SUGANG
+		WHERE COURSNO = #{coursno}
+		AND RESULT IS NULL
+	</select>
+		
+	<insert id="insert">
+		INSERT INTO TBL_SUGANG(STUDNO, COURSNO)
+		VALUES (#{studno}, #{coursno})
+	</insert>
+	
+	<update id="update">
+		UPDATE TBL_SUGANG
+		<trim prefix="SET" suffixOverrides=",">
+		STATUS = 1,
+		<if test="result != null">
+		RESULT = #{result}
+		</if>
+		</trim>
+		WHERE STUDNO = #{studno}
+		AND COURSNO = #{coursno}
+	</update>
+</mapper>

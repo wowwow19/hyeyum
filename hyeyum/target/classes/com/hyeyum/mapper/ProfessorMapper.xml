@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.ProfessorMapper">
+	
+	<insert id="insert">
+  		INSERT INTO TBL_PROFESSOR (PROFNO, NAME, BIRTHDATE, ADDRESS, GENDER, TEL, HIREDATE, SAL, POSITION, DEPTNO, EMAIL)
+		VALUES (#{profno}, #{name}, #{birthdate}, #{address}, #{gender}, #{tel}, sysdate, #{sal}, #{position}, #{deptno}, #{email})
+  	</insert>
+
+	<update id="update" >
+  		UPDATE TBL_PROFESSOR SET
+  			ADDRESS = #{address}
+  			,TEL = #{tel}
+  			,SAL = #{sal}
+  			,POSITION = #{position}
+  			,DEPTNO = #{deptno}
+  			,EMAIL = #{email}
+  			WHERE PROFNO = #{profno}
+  	</update>
+  	
+  	<insert id="generateAccount">
+    	INSERT INTO TBL_PROF_ACCOUNT(PROFNO, PASSWORD)
+    	VALUES (#{profno}, #{password})
+    </insert>
+  	
+  	<select id="getList" resultType="com.hyeyum.domain.ProfessorVO">
+		SELECT P.PROFNO, P.NAME, P.BIRTHDATE, P.ADDRESS, P.GENDER, P.TEL, P.HIREDATE, P.SAL, P.POSITION, P.DEPTNO, D.NAME dname, P.EMAIL AS EMAIL
+		FROM TBL_DEPARTMENT D CROSS JOIN TBL_PROFESSOR P
+		WHERE D.DEPTNO = P.DEPTNO
+  	</select>
+  	
+  	<delete id="delete" >
+  		DELETE TBL_PROFESSOR WHERE PROFNO = #{profno}
+  	</delete>
+	<select id="read" resultType="com.hyeyum.domain.ProfessorVO">
+		SELECT P.PROFNO, P.NAME, PASSWORD, P.BIRTHDATE, P.ADDRESS, P.GENDER, P.TEL, P.HIREDATE, P.SAL, P.POSITION, P.DEPTNO, D.NAME dname, P.EMAIL AS EMAIL
+		FROM TBL_DEPARTMENT D  
+		JOIN TBL_PROFESSOR P
+		on D.DEPTNO = P.DEPTNO
+		JOIN TBL_PROF_ACCOUNT A
+		ON P.PROFNO = A.PROFNO
+		where P.PROFNO = #{profno}
+    </select>
+    
+  	
+ 	 <update id="updatePassword">
+    	UPDATE TBL_MEMBER
+    	SET
+    		USERPW = #{userpw}
+    	WHERE USERID = #{userid}
+    </update>
+ 	
+ 	<select id="getProfCnt" resultType="int">
+    	select count(*)
+ 		from tbl_professor
+    </select>
+    
+ 	<select id="getChargeStudCnt" resultType="int">
+    	select count(*)
+		 from tbl_student s
+		 join tbl_professor p
+		 on s.profno = p.profno
+		 where p.profno = #{profno}
+    </select>
+    
+ 	<select id="getChargeCourseCnt" resultType="int">
+    	select count(*)
+		from tbl_course co
+		join tbl_professor p
+		on co.profno = p.profno
+		where p.profno = #{profno}
+    </select>
+    
+ 	<select id="getCorrCnt" resultType="int">
+    	select count(*)
+		from tbl_course co
+		left join tbl_professor p
+		on co.profno = p.profno
+		join tbl_correction cor
+		on co.coursno = cor.coursno
+		where co.profno = #{profno}
+		and cor.status = 0
+    </select>
+</mapper>

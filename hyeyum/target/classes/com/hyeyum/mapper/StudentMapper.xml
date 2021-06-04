@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyeyum.mapper.StudentMapper">
+	<select id="read" resultType="com.hyeyum.domain.StudentVO">
+        SELECT
+   			S.STUDNO, S.NAME AS NAME, PASSWORD, S.BIRTHDATE, S.ADDRESS, S.TEL, GRADE, S.GENDER, FEATURE, STATUS, S.DEPTNO, D.NAME AS DEPTNAME, S.PROFNO, P.NAME AS PROFNAME, S.EMAIL AS EMAIL
+		FROM TBL_STUDENT S
+		JOIN TBL_DEPARTMENT D
+		ON S.DEPTNO = D.DEPTNO
+		LEFT JOIN TBL_PROFESSOR P
+		ON S.PROFNO = P.PROFNO
+		JOIN TBL_STUD_ACCOUNT A
+		ON S.STUDNO = A.STUDNO
+		WHERE S.STUDNO = #{studno}
+    </select>
+    
+    <select id="getList" resultType="com.hyeyum.domain.StudentVO">
+    	SELECT
+   			S.STUDNO, S.NAME AS NAME, PASSWORD, S.BIRTHDATE, S.ADDRESS, S.TEL, GRADE, S.GENDER, FEATURE, STATUS, S.DEPTNO, D.NAME AS DEPTNAME, S.PROFNO, P.NAME AS PROFNAME, S.EMAIL AS EMAIL
+		FROM TBL_STUDENT S
+		JOIN TBL_DEPARTMENT D
+		ON S.DEPTNO = D.DEPTNO
+		LEFT JOIN TBL_PROFESSOR P
+		ON S.PROFNO = P.PROFNO
+		JOIN TBL_STUD_ACCOUNT A
+		ON S.STUDNO = A.STUDNO
+		<trim prefix="WHERE" prefixOverrides="AND">
+		<if test="grade != null">
+			S.GRADE = #{grade}
+		</if>
+		<if test="gender != null">
+			AND S.GENDER = #{gender}
+		</if>
+		<if test="feature != null">
+			AND S.FEATURE = #{feature}
+		</if>
+		<if test="status != null">
+			AND S.STATUS = #{status}
+		</if>
+		<if test="deptno != null">
+			AND S.DEPTNO = #{deptno}
+		</if>
+		<if test="profno != null">
+			AND S.PROFNO = #{profno}
+		</if>
+		</trim>
+    </select>
+    
+    <insert id="insert">
+    	INSERT INTO TBL_STUDENT
+    		<trim prefix="(" suffixOverrides="," suffix=")">
+    		STUDNO,
+    		NAME,
+    		BIRTHDATE,
+    		GENDER,
+    		DEPTNO,
+    		<if test="address != null">
+    		ADDRESS,
+    		</if>
+    		<if test="tel != null">
+    		TEL,
+    		</if>
+    		<if test="grade != null">
+    		GRADE,
+    		</if>
+    		<if test="feature != null">
+    		FEATURE,
+    		</if>
+    		<if test="status != null">
+    		STATUS,
+    		</if>
+    		<if test="profno != null">
+    		PROFNO,
+    		</if>
+    		<if test="email != null">
+    		EMAIL,
+    		</if>
+   			</trim>
+    	VALUES
+    		<trim prefix="(" suffixOverrides="," suffix=")">
+    		#{studno},
+    		#{name},
+    		#{birthDate},
+    		#{gender},
+    		#{deptno},
+    		<if test="address != null">
+    		#{address},
+    		</if>
+    		<if test="tel != null">
+    		#{tel},
+    		</if>
+    		<if test="grade != null">
+    		#{grade},
+    		</if>
+    		<if test="feature != null">
+    		#{feature},
+    		</if>
+    		<if test="status != null">
+    		#{status},
+    		</if>
+    		<if test="profno != null">
+    		#{profno},
+    		</if>
+    		<if test="email != null">
+    		#{email},
+    		</if>
+    		</trim>
+    </insert>
+    
+    <insert id="generateAccount">
+    	INSERT INTO TBL_STUD_ACCOUNT(STUDNO, PASSWORD)
+    	VALUES (#{studno}, #{password})
+    </insert>
+    
+    <update id="updateInfo">
+    	UPDATE TBL_STUDENT
+   		<trim prefix="SET" suffixOverrides=",">
+   		<if test="grade != null">
+    		GRADE = #{grade},
+   		</if>
+   		<if test="address != null and !address.equals('')">
+    		ADDRESS = #{address},
+   		</if>
+   		<if test="tel != null and !tel.equals('')">
+    		TEL = #{tel},
+   		</if>
+   		<if test="feature != null">
+    		FEATURE = #{feature},
+   		</if>
+   		<if test="status != null">
+    		STATUS = #{status},
+   		</if>
+   		<if test="email != null">
+    		EMAIL = #{email},
+   		</if>
+   		</trim>
+    	WHERE STUDNO = #{studno}
+    </update>
+    
+    <update id="updatePassword">
+    	UPDATE TBL_MEMBER
+    	SET
+    		USERPW = #{userpw}
+    	WHERE USERID = #{userid}
+    </update>
+    
+    <select id="getStudCnt" resultType="int">
+    	select count(*) studCnt
+ 		from tbl_student
+    </select>
+</mapper>

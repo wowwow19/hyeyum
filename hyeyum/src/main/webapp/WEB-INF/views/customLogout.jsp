@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>2021. 4. 20.오후 3:27:41</title>
+<title>혜윰대학교 종합정보시스템-혜윰누리</title>
 </head>
 <body>
 	<h1> 로그아웃 페이지 </h1>

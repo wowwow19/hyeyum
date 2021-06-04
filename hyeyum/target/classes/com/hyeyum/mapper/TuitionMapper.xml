@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.TuitionMapper">
+	<select id="read" resultType="com.hyeyum.domain.TuitionVO">
+		SELECT TUITNO, AMOUNT, SEMESTER, PAYDATE, S.STUDNO, S.NAME AS STUDNAME, D.DEPTNO, D.NAME AS DEPTNAME
+		FROM TBL_TUITION T, TBL_STUDENT S, TBL_DEPARTMENT D
+		WHERE TUITNO = #{tuitNo}
+		AND T.STUDNO = S.STUDNO
+		AND S.DEPTNO = D.DEPTNO
+	</select>
+	
+	<select id="getList" resultType="com.hyeyum.domain.TuitionVO">
+		SELECT TUITNO, AMOUNT, SEMESTER, PAYDATE, S.STUDNO, S.NAME AS STUDNAME, D.DEPTNO, D.NAME AS DEPTNAME
+		FROM TBL_TUITION T, TBL_STUDENT S, TBL_DEPARTMENT D
+		WHERE T.STUDNO = S.STUDNO
+		AND S.DEPTNO = D.DEPTNO
+	
+	</select>
+	
+	<insert id="insert">
+	 INSERT INTO TBL_TUITION (TUITNO, AMOUNT, SEMESTER,PAYDATE, STUDNO)
+		VALUES (SEQ_TUITION.NEXTVAL, #{amount}, #{semester}, SYSDATE, #{studNo})
+	</insert>
+		<delete id="delete">
+   		DELETE FROM TBL_TUITION  WHERE TUITNO = #{tuitno}
+   	</delete> 
+   	<update id="update">
+    	UPDATE TBL_TUITION
+		SET AMOUNT = #{amount}
+		WHERE STUDNO = #{studNo}
+    </update>
+</mapper>

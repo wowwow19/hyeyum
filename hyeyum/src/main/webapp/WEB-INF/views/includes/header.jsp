@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/resources/assets/images/favicon.png">
-    <title>Hyeyum nuri</title>
+    <title>혜윰대학교 종합정보시스템-혜윰누리</title>
     <!-- Custom CSS -->
     <link href="${pageContext.request.contextPath}/resources/assets/libs/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/resources/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
@@ -60,46 +60,24 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <div class="navbar-brand">
-                        <!-- Logo icon -->
-                        <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <%-- <b class="logo-icon">
-                                <!-- Dark Logo icon -->
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/pencil.png" alt="homepage" class="dark-logo" style="height: 56px;" />
-                                <!-- Light Logo icon -->
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/pen.png" alt="homepage" class="light-logo" />
-                            </b> --%>
-                            <!--End Logo icon -->
-                            <!-- Logo text -->
-                           <a href="${pageContext.request.contextPath}/admin/index">
-	                           <span class="logo-text">
-	                                <!-- dark Logo text -->
-	                                <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" alt="homepage" class="dark-logo" style=" height: 85px; width: 200px;"/>
-	                                <!-- Light Logo text -->
-	                                <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" class="light-logo" alt="homepage" />
-	                            </span>
-                           </a>
-                        </sec:authorize>
-                        <sec:authorize access="hasRole('ROLE_STUDENT')">
-                        <a href="${pageContext.request.contextPath}/student/index">
-                             <span class="logo-text">
-                                <!-- dark Logo text -->
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" alt="homepage" class="dark-logo" style=" height: 85px; width: 200px;"/>
-                                <!-- Light Logo text -->
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" class="light-logo" alt="homepage" />
-                            </span>
-                        </a>
-                        </sec:authorize>
-                        <sec:authorize access="hasRole('ROLE_PROFESSOR')">
-                        <a href="${pageContext.request.contextPath}/professor/index">
-                             <span class="logo-text">
-                                <!-- dark Logo text -->
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" alt="homepage" class="dark-logo" style=" height: 85px; width: 200px;"/>
-                                <!-- Light Logo text -->
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" class="light-logo" alt="homepage" />
-                            </span>
-                        </a>
-                        </sec:authorize>
+                    <div class="navbar-brand text-center">
+                          <!-- Logo text -->
+                       <sec:authorize access="hasRole('ROLE_ADMIN')">
+                       <a href="${pageContext.request.contextPath}/admin/index">
+                       </sec:authorize>
+                       <sec:authorize access="hasRole('ROLE_STUDENT')">
+                       <a href="${pageContext.request.contextPath}/student/index">
+                       </sec:authorize>
+                       <sec:authorize access="hasRole('ROLE_PROFESSOR')">
+                       <a href="${pageContext.request.contextPath}/professor/index">
+                       </sec:authorize>
+                           <!-- Big Logo -->
+                           <img src="${pageContext.request.contextPath}/resources/assets/images/logo2.png" alt="homepage" class="mt-3 big-logo" style="width: 100%;"/>
+                           <!-- Middle Logo -->
+                           <img src="${pageContext.request.contextPath}/resources/assets/images/logo3.png" alt="homepage" class="midium-logo d-none mb-1" style="max-width: 40%"/>
+                           <!-- Small Logo -->
+                           <img src="${pageContext.request.contextPath}/resources/assets/images/favicon.png" alt="homepage" class="mt-3 small-logo d-none" style="width: 100%;"/>
+                       </a>
                     </div>
                     <!-- ============================================================== -->
                     <!-- End Logo -->
@@ -107,154 +85,25 @@
                     <!-- ============================================================== -->
                     <!-- Toggle which is visible on mobile only -->
                     <!-- ============================================================== -->
-                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
-                        data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
-                            class="ti-more"></i></a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
                     <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1 invisible">
-                        <!-- Notification -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
-                                id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <span><i data-feather="bell" class="svg-icon"></i></span>
-                                <span class="badge badge-primary notify-no rounded-circle">5</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
-                                <ul class="list-style-none">
-                                    <li>
-                                        <div class="message-center notifications position-relative">
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <div class="btn btn-danger rounded-circle btn-circle"><i
-                                                        data-feather="airplay" class="text-white"></i></div>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Luanch Admin</h6>
-                                                    <span class="font-12 text-nowrap d-block text-muted">Just see
-                                                        the my new
-                                                        admin!</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:30 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-success text-white rounded-circle btn-circle"><i
-                                                        data-feather="calendar" class="text-white"></i></span>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Event today</h6>
-                                                    <span
-                                                        class="font-12 text-nowrap d-block text-muted text-truncate">Just
-                                                        a reminder that you have event</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:10 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-info rounded-circle btn-circle"><i
-                                                        data-feather="settings" class="text-white"></i></span>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Settings</h6>
-                                                    <span
-                                                        class="font-12 text-nowrap d-block text-muted text-truncate">You
-                                                        can customize this template
-                                                        as you want</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:08 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-primary rounded-circle btn-circle"><i
-                                                        data-feather="box" class="text-white"></i></span>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Pavan kumar</h6> <span
-                                                        class="font-12 text-nowrap d-block text-muted">Just
-                                                        see the my admin!</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:02 AM</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link pt-3 text-center text-dark" href="javascript:void(0);">
-                                            <strong>Check all notifications</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <!-- End Notification -->
-                        <!-- ============================================================== -->
-                        <!-- create new -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i data-feather="settings" class="svg-icon"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <div class="customize-input">
-                                    <select
-                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
-                                        <option selected>EN</option>
-                                        <option value="1">AB</option>
-                                        <option value="2">AK</option>
-                                        <option value="3">BE</option>
-                                    </select>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
-                    <ul class="navbar-nav float-right">
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item d-none d-md-block invisible">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <form>
-                                    <div class="customize-input">
-                                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
-                                            type="search" placeholder="Search" aria-label="Search">
-                                        <i class="form-control-icon" data-feather="search"></i>
-                                    </div>
-                                </form>
-                            </a>
-                        </li>
+                    <ul class="navbar-nav ml-auto">
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="${pageContext.request.contextPath}/resources/assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
-                                    width="40">
-                                    <sec:authentication property="principal" var="member"/>
-                                <span class="ml-2 d-none d-lg-inline-block"><span>안녕하세요,</span> <span
-                                        class="text-dark">${member == 'anonymousUser' ? 'Not Login' : member.vo.name}</span> <i data-feather="chevron-down"
-                                        class="svg-icon"></i></span>
+                                <sec:authentication property="principal" var="member"/>
+                                <span class="text-dark">${member == 'anonymousUser' ? 'Not Login' : member.vo.name}</span>
+                                <span class="d-none d-lg-inline-block mr-2">님 </span>
+                                <span class="text-dark"><i data-feather="chevron-down" class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                             	<sec:authorize access="hasRole('ROLE_STUDENT')">
@@ -282,14 +131,12 @@
                                 <div class="pl-4 p-3">
                                 	<sec:authorize access="hasRole('ROLE_PROFESSOR')">
                                 	<a href="${pageContext.request.contextPath}/professor/info" class="btn btn-sm btn-info btn-block">
-                                		내 정보보기
-                               		</a>
                                 	</sec:authorize>
                                 	<sec:authorize access="hasRole('ROLE_STUDENT')">
                                 	<a href="${pageContext.request.contextPath}/student/info" class="btn btn-sm btn-info btn-block">
+                                	</sec:authorize>
                                 		내 정보보기
                                		</a>
-                                	</sec:authorize>
                            		</div>
                             </div>
                         </li>
@@ -303,3 +150,32 @@
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
+        <script>
+       	changeLogo();
+        
+        $(window).resize(function() {
+        	changeLogo();
+        });
+        
+        function changeLogo() {
+            var windowWidth = $(window).width();
+			
+            if(windowWidth >= 1170) {
+            	$(".big-logo").removeClass("d-none");
+            	$(".midium-logo").addClass("d-none");
+            	$(".small-logo").addClass("d-none");
+            }
+            
+            if(windowWidth < 1170){
+            	$(".big-logo").addClass("d-none");
+            	$(".midium-logo").addClass("d-none");
+            	$(".small-logo").removeClass("d-none");
+            }
+            
+            if(windowWidth < 768){
+            	$(".big-logo").addClass("d-none");
+            	$(".midium-logo").removeClass("d-none");
+            	$(".small-logo").addClass("d-none");
+            }
+        }
+        </script>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.StudStatusMapper">
+	
+    <!-- 목록 조회  -->
+    <select id="getList" resultType="com.hyeyum.domain.StudStatusVO">
+    	SELECT sta.STATUSNO, sta.reason, sta.CHANGE, sta.STATUS reStatus, sta.studno, s.name , sta.regdate, d.name deptname
+		FROM tbl_stud_status STA, TBL_STUDENT S, tbl_department d
+		WHERE STA.STUDNO = S.STUDNO
+		and s.deptno = d.deptno
+		<trim prefix="AND" prefixOverrides="AND">
+		<if test="status != null">
+			STA.STATUS = #{status}
+		</if>
+		<if test="change != null">
+			AND STA.CHANGE = #{change}
+		</if>
+		<if test="studno != null">
+			AND STA.STUDNO = #{studno}
+		</if>
+		<if test="year != null and !year.equals('')">
+			AND TO_CHAR(STA.REGDATE, 'YYYY') = #{year}
+		</if>
+		</trim>
+		ORDER BY STATUSNO DESC
+    </select>
+    
+    
+	<!-- 개별 조회 -->
+	<select id="read" resultType="com.hyeyum.domain.StudStatusVO">
+      	SELECT sta.STATUSNO, sta.reason, sta.CHANGE, sta.STATUS reStatus, sta.studno, s.name 
+		FROM tbl_stud_status STA, TBL_STUDENT S
+		WHERE STA.STUDNO = S.STUDNO
+		AND STATUSNO = #{statusno}
+    </select>
+    
+    
+    <!--  학적변동 신청  -->
+    <insert id="insert" >
+    	INSERT INTO TBL_STUD_STATUS(STATUSNO, reason, CHANGE, STUDNO)
+		VALUES (SEQ_STUD_STATUS.NEXTVAL, #{reason}, #{change}, #{studno})
+    </insert>
+    
+    <!-- 학적변동 승인처리  -->
+    <update id="update">
+	    UPDATE tbl_stud_status 
+		SET 
+		    STATUS = #{reStatus}
+		WHERE STATUSNO = #{statusno}
+    </update>
+    
+    <!-- 학적변동 신청 취소 -->
+    <delete id="delete">
+    	DELETE FROM TBL_STUD_STATUS
+    	WHERE STATUSNO = #{statusno}
+    </delete>
+   
+   <select id="getStatusCnt" resultType="int">
+	   	select count(*) 
+		from tbl_stud_status
+		where status = 0
+   </select>
+   
+</mapper>

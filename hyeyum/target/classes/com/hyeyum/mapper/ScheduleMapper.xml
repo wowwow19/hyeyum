@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.ScheduleMapper">
+	<select id="read" resultType="com.hyeyum.domain.ScheduleVO">
+		SELECT SCHENO, TO_CHAR(STARTDAY, 'YYYY-MM-DD') STARTDAY, TO_CHAR(ENDDAY, 'YYYY-MM-DD') ENDDAY, CONTENT
+		FROM TBL_SCHEDULE
+		WHERE SCHENO = #{scheno}
+	</select>
+	
+	<select id="getList" resultType="com.hyeyum.domain.ScheduleVO">
+		SELECT SCHENO, TO_CHAR(STARTDAY, 'YYYY-MM-DD') STARTDAY, TO_CHAR(ENDDAY, 'YYYY-MM-DD') ENDDAY, CONTENT
+		FROM TBL_SCHEDULE
+		<trim prefix="WHERE">
+		<if test="year != null and !year.equals('') and
+				  month == null and day == null">
+		#{year} = TO_CHAR(STARTDAY, 'YYYY') OR
+		#{year} = TO_CHAR(ENDDAY, 'YYYY') OR
+		TO_DATE(#{year}, 'YYYY') BETWEEN STARTDAY AND ENDDAY
+		</if>
+		<if test="year != null and !year.equals('') and
+				  month != null and !month.equals('') and
+				  day == null">
+		#{monthStr} = TO_CHAR(STARTDAY, 'YYYY-MM') OR
+		#{monthStr} = TO_CHAR(ENDDAY, 'YYYY-MM') OR
+		TO_DATE(#{monthStr}, 'YYYY-MM') BETWEEN STARTDAY AND ENDDAY
+		</if>
+		<if test="year != null and !year.equals('') and
+				  month != null and !month.equals('') and
+				  day != null and !day.equals('')">
+		TO_DATE(#{dayStr}, 'YYYY-MM-DD') BETWEEN STARTDAY AND ENDDAY
+		</if>
+		</trim>
+		ORDER BY STARTDAY
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO TBL_SCHEDULE(SCHENO, STARTDAY, ENDDAY, CONTENT)
+		VALUES (SEQ_SCHEDULE.NEXTVAL, TO_DATE(#{startDayStr}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{endDayStr}, 'YYYY-MM-DD HH24:MI:SS'), #{content})
+	</insert>
+	
+	<update id="update">
+		UPDATE TBL_SCHEDULE
+		SET
+			STARTDAY = TO_DATE(#{startDayStr}, 'YYYY-MM-DD HH24:MI:SS'),
+			ENDDAY = TO_DATE(#{endDayStr}, 'YYYY-MM-DD HH24:MI:SS'),
+			CONTENT = #{content}
+		WHERE SCHENO = #{scheno}
+	</update>
+</mapper>

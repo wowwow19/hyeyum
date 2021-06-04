@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/resources/assets/images/favicon.png">
-    <title>hyeyum-Login</title>
+    <title>혜윰대학교 종합정보시스템-혜윰누리</title>
     <!-- Custom CSS -->
     <link href="${pageContext.request.contextPath}/resources/dist/css/style.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/assets/css/student-style.css" rel="stylesheet">
@@ -42,16 +42,16 @@
         <!-- ============================================================== -->
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
             style="background:url(${pageContext.request.contextPath}/resources/assets/images/big/auth-bg.jpg) no-repeat center center;">
-            <div class="auth-box row" style="margin-bottom: 180px;">
-                <div class="col-lg-6 col-md-6 bg-white" style="margin-left: 180px;">
-                    <div class="p-3">
-                        <div class="mt-3 text-center"><img src="${pageContext.request.contextPath}/resources/assets/images/big/logo2.png" height="100" width="200" style=""></div>
+            <div class="card col-lg-3">
+                <div class="col-lg-12 bg-white mx-auto">
+                    <div class="p-3 my-3">
+                        <div class="mb-3 text-center"><img src="${pageContext.request.contextPath}/resources/assets/images/big/logo2.png" width="100%"></div>
                         <form class="mt-2" method="post" action="${pageContext.request.contextPath}/login">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <input class="form-control" id="username" name="username" type="text"
-                                            placeholder="학번 / 교번">
+                                            placeholder="학번/교번">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -61,10 +61,10 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
-                                    <button type="submit" class="btn btn-block btn-dark">Login</button>
+                                    <button type="submit" class="btn btn-block btn-dark">로그인</button>
                                 </div>
-                                <div class="col-lg-12 text-center mt-2">
-                                     <a href="#" class="text-danger" id="findPasswordBtn">비밀번호 찾기</a>
+                                <div class="col-lg-12 text-center mt-3">
+                                     <a href="#" class="text-secondary" id="findPasswordBtn">비밀번호 찾기</a>
                                 </div>
                             </div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
@@ -146,10 +146,41 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
+			
     </div>
     <!-- ============================================================== -->
     <!-- All Required js -->
     <!-- ============================================================== -->
+    
+    <div class="alert alert-primary bg-white text-primary" role="alert">
+        <h4 class="alert-heading mt-1">테스트계정</h4>
+        <hr>
+        <div class="row mb-1 px-3">
+        	<div class="mr-3">
+		        <span><i class="fas fa-dot-circle"></i> 관리자</span>
+        	</div>
+        	<div class="ml-auto">
+        		<button class="btn btn-outline-primary btn-sm admin-account-input-btn">입력</button>
+        	</div>
+        </div>
+        <div class="row mb-1 px-3">
+        	<div class="mr-auto">
+		        <span><i class="fas fa-dot-circle"></i> 학생</span>
+        	</div>
+        	<div class="ml-auto">
+        		<button class="btn btn-outline-primary btn-sm stud-account-input-btn">입력</button>
+        	</div>
+        </div>
+        <div class="row mb-1 px-3">
+        	<div class="mr-auto">
+		        <span><i class="fas fa-dot-circle"></i> 교수</span>
+        	</div>
+        	<div class="ml-auto">
+        		<button class="btn btn-outline-primary btn-sm prof-account-input-btn">입력</button>
+        	</div>
+        </div>
+    </div>
+    
     <script src="${pageContext.request.contextPath}/resources/assets/libs/jquery/dist/jquery.min.js "></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/assets/libs/popper.js/dist/umd/popper.min.js "></script>
@@ -173,8 +204,25 @@
     		alert("비밀번호 변경을 실패했습니다.");
     	}
     	
+    	$(".alert").fadeIn();
+    	
         $(".preloader ").fadeOut();
    		$(".professor-input").hide();
+   		
+   		$(".admin-account-input-btn").click(function() {
+   			$(".auth-wrapper input[name='username']").val("admin");
+   			$(".auth-wrapper input[name='password']").val("1111");
+   		});
+   		
+   		$(".stud-account-input-btn").click(function() {
+   			$(".auth-wrapper input[name='username']").val("21111004");
+   			$(".auth-wrapper input[name='password']").val("1234");
+   		});
+   		
+   		$(".prof-account-input-btn").click(function() {
+   			$(".auth-wrapper input[name='username']").val("2111102");
+   			$(".auth-wrapper input[name='password']").val("1111");
+   		});
         
         $("#findPasswordBtn").click(function() {
         	$("#findPasswordModal").modal("show");

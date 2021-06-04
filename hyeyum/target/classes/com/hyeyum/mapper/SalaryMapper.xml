@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.SalaryMapper">
+
+	<select id="read" resultType="com.hyeyum.domain.SalaryVO">
+       SELECT s.SALNO, s.AMOUNT, s.REGDATE payDate, s.PROFNO, p.name profName
+		FROM TBL_SALARY s, tbl_professor p
+		WHERE s.profno = p.profno
+		and s.salno = #{salno}
+		<if test="profno != null">
+		AND s.profno = #{profno}
+		</if>
+    </select>
+
+    <select id="getList" resultType="com.hyeyum.domain.SalaryVO">
+       SELECT s.SALNO, s.AMOUNT, s.REGDATE payDate, s.PROFNO, p.name profName
+		FROM TBL_SALARY s, tbl_professor p
+		WHERE s.profno = p.profno
+		<if test="profno != null">
+		AND s.profno = #{profno}
+		</if>
+    </select>
+    
+    <insert id="insert">
+    	insert into TBL_SALARY(SALNO, AMOUNT, REGDATE, PROFNO)
+        values (SEQ_SALARY.nextval, #{amount}, SYSDATE, #{profno})
+    </insert>
+    
+    <update id="update">
+    	UPDATE TBL_SALARY
+		SET 
+		    AMOUNT = #{amount}
+		WHERE SALNO = #{salno}
+    </update>
+
+</mapper>
