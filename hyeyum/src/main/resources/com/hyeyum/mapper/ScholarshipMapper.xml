@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.ScholarshipMapper">
+	<select id="read" resultType="com.hyeyum.domain.ScholarshipVO">
+		SELECT 
+			
+			SCHONO, AMOUNT, SEMESTER, PAYDATE, C.STUDNO, S.NAME AS STUDNAME, S.DEPTNO, D.NAME AS DEPTNAME
+		FROM TBL_SCHOLARSHIP C, TBL_STUDENT S, TBL_DEPARTMENT D
+		WHERE SCHONO = #{schono}
+		AND C.STUDNO = S.STUDNO
+		AND S.DEPTNO = D.DEPTNO	
+	</select>
+	
+	<select id="getList" resultType="com.hyeyum.domain.ScholarshipVO">
+		SELECT 
+			/*+ INDEX_DESC(C PK_SCHOLARSHIP)*/
+			SCHONO, AMOUNT, SEMESTER, PAYDATE, C.STUDNO, S.NAME AS STUDNAME, S.DEPTNO, D.NAME AS DEPTNAME
+		FROM TBL_SCHOLARSHIP C, TBL_STUDENT S, TBL_DEPARTMENT D
+		WHERE C.STUDNO = S.STUDNO
+		AND S.DEPTNO = D.DEPTNO
+		<if test="studno != null">
+		AND C.STUDNO = #{studno}
+		</if>
+		<if test="deptno != null">
+		AND S.DEPTNO = #{deptno}
+		</if>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO TBL_SCHOLARSHIP(SCHONO, AMOUNT, SEMESTER, STUDNO)
+		VALUES (SEQ_SCHOLARSHIP.NEXTVAL, #{amount}, #{semester}, #{studno})
+	</insert>
+</mapper>

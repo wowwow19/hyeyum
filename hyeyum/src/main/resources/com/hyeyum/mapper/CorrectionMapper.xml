@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.CorrectionMapper">
+	<select id="get" resultType="com.hyeyum.domain.CorrectionVO">
+		SELECT CORRNO, CR.STUDNO AS STUDNO, S.NAME AS STUDNAME, CR.COURSNO AS COURSO, CO.NAME AS COURSNAME, REASON, CR.STATUS corrStatus, CR.REGDATE AS REGDATE
+		FROM TBL_CORRECTION CR
+		JOIN TBL_COURSE CO
+		ON CR.COURSNO = CO.COURSNO
+		JOIN TBL_STUDENT S
+		ON CR.STUDNO = S.STUDNO
+		WHERE CORRNO = #{corrno}
+	</select>
+	
+	<select id="getList" resultType="com.hyeyum.domain.CorrectionVO">
+		SELECT
+		CORRNO, CR.STUDNO AS STUDNO, S.NAME AS STUDNAME, CR.COURSNO AS COURSNO, CO.NAME AS COURSNAME, CR.PROFNO AS PROFNO, REASON, CR.STATUS corrStatus, CR.REGDATE AS REGDATE
+		FROM TBL_CORRECTION CR
+		JOIN TBL_COURSE CO
+		ON CR.COURSNO = CO.COURSNO
+		JOIN TBL_STUDENT S
+		ON CR.STUDNO = S.STUDNO
+		<trim prefix="WHERE" prefixOverrides="AND">
+		<if test="studno != null">
+			CR.STUDNO = #{studno}
+		</if>
+		<if test="coursno != null">
+			AND CR.COURSNO = #{coursno}
+		</if>
+		<if test="deptno != null">
+			AND S.DEPTNO = #{deptno}
+		</if>
+		<if test="status != null">
+			AND CR.STATUS = #{status}
+		</if>
+		<if test="profno != null">
+			AND CR.PROFNO = #{profno}
+		</if>
+		</trim>
+		order by corrno desc
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO TBL_CORRECTION(CORRNO, STUDNO, COURSNO, REASON, PROFNO)
+		VALUES (SEQ_CORRECTION.NEXTVAL, #{studno}, #{coursno}, #{reason}, #{profno})
+	</insert>
+	
+	<update id="update">
+		UPDATE TBL_CORRECTION
+		SET
+			REASON = #{reason},
+			STATUS = #{corrStatus}
+		WHERE CORRNO = #{corrno}
+	</update>
+</mapper>

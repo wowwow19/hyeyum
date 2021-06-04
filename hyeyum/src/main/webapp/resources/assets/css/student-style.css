@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+
+.course-list-wrapper .card-title,
+.sugang-wrapper .card-title,
+.status-wrapper .card-title,
+.credit-list-wrapper .card-title,
+.grade-list-wrapper .card-title,
+.correction-wrapper .card-title {
+	color: #777;
+	font-weight: normal;
+	margin: 0;
+}
+
+.table-container {
+	overflow: scroll;
+}
+
+.course-list-wrapper .table-container {
+	height: 60vh;
+}
+
+.sugang-wrapper .table-container,
+.grade-list-wrapper .table-container {
+	height: 50vh;
+}
+
+.credit-list-wrapper .table-container {
+	height: 30vh;
+}
+
+.table-container tr,
+.table-container th,
+.table-container td {
+	padding: 5px;
+	vertical-align: middle;
+}
+
+.table-container .btn {
+	padding: 3px;
+	font-size: .8em;
+}
+
+.sugang-wrapper .course-name {
+	cursor: pointer;
+}
+
+.alert {
+	display: none;
+	position: fixed;
+	right: 5px;
+	bottom: 5px;
+	z-index: 2;
+}
+
+#timeTable table {
+	table-layout: fixed;
+	white-space: wrap;	
+}
+
+.info-wrapper .password-input,
+.info-wrapper .password-ck-input {
+	display: none;
+}
+
+.fc-time {
+	display: none;
+}
+
+.send-loading {
+	display: none;
+}

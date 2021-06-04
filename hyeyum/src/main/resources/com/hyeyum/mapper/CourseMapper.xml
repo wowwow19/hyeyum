@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyeyum.mapper.CourseMapper">
+	
+	<!-- 강의 개별 조회 -->
+	<select id="read" resultType="com.hyeyum.domain.CourseVO">
+    	SELECT  c.coursno, c.name, c.credit, c.maxnum, c.semester semester, c.starttime, c.endtime, c.day, c.profno,  p.name pname, c.deptno, d.name dname, c.locno, c.enable
+		FROM tbl_course c, tbl_professor p, tbl_department d, tbl_location l
+		WHERE c.deptno = d.deptno
+		AND c.profno = p.profno
+		AND c.locno = l.locno
+		<trim prefix="and" prefixOverrides="and">
+			<if test="enable != null">
+				c.enable = #{enable}
+			</if>
+			<if test="coursno != null">
+				AND c.coursno = #{coursno}
+			</if>
+			<if test="cname != null and !cname.equals('')">
+				AND c.name LIKE '%'||#{cname}||'%'
+			</if>
+			<if test="profno != null">
+				AND c.profno = #{profno}
+			</if>
+			<if test="pname != null and !pname.equals('')">
+				AND p.name LIKE '%'||#{pname}||'%'
+			</if>
+			<if test="semester != null">
+				AND mod(c.semester, 2) = #{semester}
+			</if>
+			<if test="deptno != null">
+				AND c.deptno = #{deptno}
+			</if>
+			<if test="year != null and !year.equals('')">
+				AND to_char(c.regdate, 'YYYY') = #{year}
+			</if>
+		</trim>
+    </select>
+	
+    <!-- 강의 목록 조회  -->
+    <select id="getList" resultType="com.hyeyum.domain.CourseVO">
+    	SELECT  c.coursno, c.name, c.credit, c.maxnum, c.semester semester, c.starttime, c.endtime, c.day, c.profno,  p.name pname, c.deptno, d.name dname, c.locno, c.enable
+		FROM tbl_course c 
+		join tbl_professor p
+		on c.profno = p.profno
+		join tbl_department d
+		on c.deptno = d.deptno
+		join tbl_location l
+		on c.locno = l.locno
+		<trim prefix="where" prefixOverrides="and">
+			<if test="enable != null">
+				c.enable = #{enable}
+			</if>
+			<if test="coursno != null">
+				AND c.coursno = #{coursno}
+			</if>
+			<if test="cname != null and !cname.equals('')">
+				AND c.name LIKE '%'||#{cname}||'%'
+			</if>
+			<if test="profno != null">
+				AND c.profno = #{profno}
+			</if>
+			<if test="pname != null and !pname.equals('')">
+				AND p.name LIKE '%'||#{pname}||'%'
+			</if>
+			<if test="semester != null">
+				AND mod(c.semester, 2) = #{semester}
+			</if>
+			<if test="deptno != null">
+				AND c.deptno = #{deptno}
+			</if>
+			<if test="year != null and !year.equals('')">
+				AND to_char(c.regdate, 'YYYY') = #{year}
+			</if>
+		</trim>
+    </select>
+    
+    <select id="getCurrentNo" resultType="Long">
+    	SELECT MAX(COURSNO)
+    	FROM TBL_COURSE
+    	WHERE DEPTNO = #{deptno}
+    </select>
+    
+    <select id="getLocationList" resultType="String">
+    	SELECT LOCNO
+    	FROM TBL_LOCATION
+    	WHERE DEPTNO = #{deptno}
+    </select>
+    
+    <!-- 강의 삽입  -->
+    <insert id="insert" >
+    	INSERT INTO TBL_COURSE(COURSNO, NAME, CREDIT, DAY, STARTTIME, ENDTIME, LOCNO, MAXNUM, semester, DEPTNO, PROFNO)
+		VALUES (#{coursno}, #{name}, #{credit}, #{day}, #{startTime}, #{endTime}, #{locno}, #{maxnum}, #{semester}, #{deptno}, #{profno})
+    </insert>
+    
+    <!-- 강의 수정  -->
+    <update id="update">
+	    UPDATE tbl_course 
+		set
+		    credit = #{credit},
+		    day = #{day},
+		    starttime = #{startTime},
+		    endtime = #{endTime},
+		    semester = #{semester},
+		    locno = #{locno},
+		    maxnum = #{maxnum}
+		where coursno = #{coursno}
+    </update>
+    
+    
+    <!-- 강의 개설 승인  -->
+    <update id="enable">
+	    UPDATE tbl_course 
+		set
+			enable = 1
+		where coursno = #{coursno}
+    </update>
+    
+    <!-- 강의 삭제 -->
+   	<delete id="delete">
+   		DELETE FROM tbl_course  WHERE coursno = #{coursno}
+   	</delete> 
+   	
+   	<select id="getCnt" resultType="int">
+    	select count(*)
+		from tbl_course
+		where enable = 0
+    </select>
+   
+</mapper>
